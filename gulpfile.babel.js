@@ -41,6 +41,13 @@ gulp.task('views', () => {
     .pipe(reload({stream: true}));
 });
 
+
+gulp.task('deploy', ['build'], () => {
+  return gulp.src('dist')
+    .pipe($.subtree())
+    .pipe($.clean());
+});
+
 function lint(files, options) {
   return () => {
     return gulp.src(files)
