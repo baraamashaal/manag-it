@@ -1,0 +1,163 @@
+.appbar{
+
+  @extend .shadow-2;
+  background-color: $app-bgc;
+  width: 100%;
+  
+  &,a{
+    color: $txt;
+  }
+  
+  i{
+    display: inline-block;
+    font-size: 24px;
+  }
+
+  .main-bar,.extended-bar{
+    padding: 0 16px;
+  }
+
+  .main-bar{
+    height: $navbar-height-mobile;
+    position: relative;    
+  }
+
+  .extended-bar{
+    height: $navbar-max-height - $navbar-height-mobile;
+    display: none;
+  }
+
+  &.extended{
+    max-height: $navbar-max-height;
+    &.dense{
+      max-height: $navbar-max-height-small;
+    }
+    .extended-bar{
+      display: block;
+    }
+  }
+
+  .menu-btn{
+    display: inline-block;
+    float: left;
+    margin: $navbar-height-mobile*1/4 $navbar-height-mobile*1/4 $navbar-height-mobile*1/4 0;
+  }
+
+  .btn-icon{
+    
+    height: $navbar-height-mobile*1/2;
+    width: $navbar-height-mobile*1/2;
+    line-height: $navbar-height-mobile*1/2;
+  }
+
+  
+
+
+  .brand-logo{
+    color: $txt;
+    display: inline-block;
+    font-size: 20px;
+    padding: 0;
+    white-space: nowrap;
+    line-height: $navbar-height-mobile;
+  }
+
+  ul{
+    margin: $navbar-height-mobile*1/8 0;
+    line-height: $navbar-height-mobile*1/2;
+    li{
+      float: left;
+      padding: $navbar-height-mobile*1/8 0;
+      height: $navbar-height-mobile*3/4;
+      white-space: nowrap;
+    }
+
+    a{
+      transition: background-color .3s;
+      font-size: 1rem;
+      color: $txt;
+      display: inline-block;
+      padding: 0 15px;
+      cursor: pointer;
+    }
+
+  }
+
+  &.fixed-app{
+    position: relative;
+    height: $navbar-height-mobile;
+    width: 100%;
+    &.dense{
+      height: $navbar-height-small;
+    }
+    &.extended{
+      height: $navbar-max-height;
+      &.dense{
+        height: $navbar-max-height-small;
+      }
+    }
+
+    .main-bar{
+      background-color: inherit;
+      position: fixed;
+      top: 0;
+    }
+    .extended-bar{
+      position: absolute;
+      bottom: 0;
+    }
+    .main-bar,.extended-bar{
+      left: 0;
+      width: 100%;      
+    }
+
+  }
+
+  @include media-breakpoint-up(md) {
+    .main-bar,.extended-bar{
+      padding: 0 16px;
+    }
+    .main-bar{
+      height: $navbar-height;
+    }
+    .menu-btn{
+      height: $navbar-height*1/2;
+      width: $navbar-height*1/2;
+      margin: $navbar-height*1/4 $navbar-height*1/4 $navbar-height*1/4 0;
+    }
+
+    .btn-icon{
+        height: $navbar-height*1/2;
+        width: $navbar-height*1/2;
+        line-height: $navbar-height*1/2;
+      }
+    .extended-bar{
+      height: $navbar-max-height - $navbar-height;
+    }
+
+    .brand-logo{
+      line-height: $navbar-height;
+      font-size: 22px;
+    }
+
+    ul{
+      margin: $navbar-height*1/8 0;
+      line-height: $navbar-height*1/2;
+      li{
+        padding: $navbar-height*1/8 0;
+        height: $navbar-height*3/4;
+      }
+    }
+
+  }
+  
+  &.dense{
+    @include small-appbar();
+  }
+  @media screen and (orientation:landscape) and (max-device-width: $md) {
+    @include small-appbar();
+  }
+
+}
+
+

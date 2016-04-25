@@ -1,0 +1,119 @@
+$slide-out-width : 240px;
+$slide-out-left-padding-mobile : 16px;
+$slide-out-right-padding-mobile : 16px;
+$slide-out-left-padding : 24px;
+$slide-out-right-padding : 24px;
+$slide-out-list-items-height : 48px;
+
+.slide-out{
+  position: fixed;
+  width: $slide-out-width;
+  top: 0;
+  margin: 0;
+  @extend .shadow-15;
+  @if $dir == 'right'{
+    right: -1 * $slide-out-width;
+    will-change: right;
+  }
+  @else{
+    left: -1 * $slide-out-width;
+    will-change: left;
+  }
+  height: calc(100% + 60px);
+  padding-bottom: 60px;
+  background-color: $app-bgc;
+  z-index: 999;
+  backface-visibility: hidden;
+
+  &.right-slide-out{
+    right: -1 * $slide-out-width !important;
+  }
+
+  &.left-slide-out{
+    left: -1 * $slide-out-width !important;
+  }
+
+
+  .slide-out-header{
+    height: 80px + 56px;
+    background:
+      /* top, transparent black, faked with gradient */ 
+      linear-gradient(
+        rgba(0, 0, 0, 0), 
+        rgba(0, 0, 0, .4)
+      ),
+      /* bottom, image */
+      url(/images/cover-img.jpg);
+    background-size: cover;    
+    padding: 0 $slide-out-left-padding-mobile;
+  }
+
+  &.large-header {
+    .avatars-imgs{
+      height: 80px;
+    }
+    .avatar-info {
+      height: 56px;
+      color: #fff;
+      padding: 8px 0 8px;
+      .avatar-email,.avatar-name{
+        font: 14px $font-family;
+        height: 14px;
+        white-space: nowrap;
+        line-height: 14px;
+      }
+
+      .avatar-name{
+        font-weight:$font-meduim ;
+        margin:2.5px 0 4px;
+        letter-spacing: .4px;
+      }
+
+      .avatar-email{
+        font-weight: 300;
+        letter-spacing: .6px;
+      }
+
+    }
+  }
+
+  .collapsible {
+    margin: 0;
+  }
+
+  li{
+    font: none;
+    line-height: $sidenav-item-height;
+    
+    &.active{
+      background-color: rgba(0,0,0,.05);
+    }
+
+    a{
+      color: $txt;
+      font-weight: 500;
+      font-size: 14px;
+      display: block;
+      height: $slide-out-list-items-height;
+      line-height: $slide-out-list-items-height;
+      padding: 0 $slide-out-left-padding-mobile;
+      
+      &:hover{
+        background-color: rgba(0,0,0,.05);
+      }
+    }
+
+    i{
+      color: $icon;
+      @if $dir == 'right'{
+        float: right;
+        margin-left: 16px;
+      }
+      @else{
+        float: left;
+        margin-right: 16px;
+      }
+    }
+  }
+}
+

@@ -1,0 +1,65 @@
+/* themes
+   ========================================================================== */
+$theme: 'light';
+$dir : 'left';
+@if $theme == 'light' {
+  $appbar-bgc:palette(Grey,100);
+  $app-bgc:palette(Grey,50);
+  $card-bgc:palette(White);
+  $txt:palette(Black,Text);
+  $sec-txt:palette(Black,Secondary Text);
+  $icon:palette(Black,Icons);
+  $disabled:palette(Black,Disabled);
+  $hint:palette(Black,Hint Text);
+  $divider:palette(Black,Dividers);
+}
+@if $theme == 'dark' {
+  $appbar-bgc:palette(Grey,900);
+  $app-bgc:#303030;
+  $card-bgc:palette(Grey,800);
+  $txt:palette(White,Text);
+  $sec-txt:palette(White,Secondary Text);
+  $icon:palette(White,Icons);
+  $disabled:palette(White,Disabled);
+  $hint:palette(White,Hint Text);
+  $divider:palette(White,Dividers);
+}
+/* fonts
+   ========================================================================== */
+   $font-family : 'Roboto', sans-serif;
+   $font-light: 100;
+   $font-normal : 400;
+   $font-meduim : 500;
+   $font-bold : 700;
+/* grid
+   ========================================================================== */
+$extra-small-screen:480px;
+$small-screen:600px;
+$meduim-screen:960px;
+$large-screen:1280px;
+$extra-large-screen:1440px;
+
+// snippets
+$xs:$extra-small-screen;
+$sm:$small-screen;
+$md:$meduim-screen;
+$lg:$large-screen;
+$xl:$extra-large-screen;
+
+// general
+$grid-colums: 12;
+$gutter:16px;
+$gutter-desktop:24px;
+
+/* appbar
+   ========================================================================== */
+
+$navbar-max-height: 128px !default;
+$navbar-height-small : 48px !default;
+$navbar-max-height-small : 48px * 2 !default;
+/* shadow
+   ========================================================================== */
+
+$shadow-key-umbra-opacity: 0.2 !default;
+$shadow-key-penumbra-opacity: 0.14 !default;
+$shadow-ambient-shadow-opacity: 0.12 !default;

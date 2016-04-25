@@ -2,15 +2,12 @@
   "name": "manag-it",
   "private": true,
   "dependencies": {
-    "jquery": "^2.2.3",
-    "jquery-ui": "^1.11.4",
     "bootstrap": "v4.0.0-alpha.2",
     "material-design-icons": "^2.2.3",
     "susy": "^2.2.12",
     "Materialize": "materialize#^0.97.6",
     "bourbon": "^4.2.7",
-    "google-material-color": "^1.2.6",
-    "material-avatar": "^0.3.4"
+    "google-material-color": "^1.2.6"
   },
   "overrides": {
     "material-design-icons": {
@@ -31,11 +28,6 @@
     "bootstrap": {
       "main": [
         "scss/bootstrap-grid.scss"
-      ]
-    },
-    "jquery-ui": {
-      "main": [
-        "ui/widget.js"
       ]
     },
     "Materialize": {

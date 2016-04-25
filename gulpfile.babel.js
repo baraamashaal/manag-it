@@ -33,6 +33,12 @@ gulp.task('scripts', () => {
     .pipe(reload({stream: true}));
 });
 
+gulp.task('coffeeScript', () => {
+  return gulp.src('app/scripts/**/*.coffee')
+    .pipe($.coffee())
+    .pipe(gulp.dest('.tmp/scripts'));
+});
+
 gulp.task('views', () => {
   return gulp.src('app/views/pages/**/*.jade')
     .pipe($.plumber())
@@ -66,7 +72,7 @@ const testLintOptions = {
 gulp.task('lint', lint('app/scripts/**/*.js'));
 gulp.task('lint:test', lint('test/spec/**/*.js', testLintOptions));
 
-gulp.task('html', ['views', 'styles', 'scripts'], () => {
+gulp.task('html', ['views', 'styles', 'scripts', 'coffeeScript'], () => {
   return gulp.src(['app/**/*.html', '.tmp/**/*.html'])
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
@@ -106,7 +112,7 @@ gulp.task('extras', () => {
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
-gulp.task('serve', ['views', 'styles', 'scripts', 'fonts'], () => {
+gulp.task('serve', ['views', 'styles', 'scripts', 'coffeeScript', 'fonts'], () => {
   browserSync({
     notify: false,
     port: 9000,
@@ -121,6 +127,7 @@ gulp.task('serve', ['views', 'styles', 'scripts', 'fonts'], () => {
   gulp.watch([
     'app/*.html',
     '.tmp/**/*.html',
+    '.tmp/scripts/**/*.js',
     'app/images/**/*',
     '.tmp/fonts/**/*'
   ]).on('change', reload);
@@ -128,6 +135,7 @@ gulp.task('serve', ['views', 'styles', 'scripts', 'fonts'], () => {
   gulp.watch('app/views/**/*.jade', ['views']);
   gulp.watch('app/styles/**/*.scss', ['styles']);
   gulp.watch('app/scripts/**/*.js', ['scripts']);
+  gulp.watch('app/scripts/**/*.coffee', ['coffeeScript']);
   gulp.watch('app/fonts/**/*', ['fonts']);
   gulp.watch('bower.json', ['wiredep', 'fonts']);
 });
