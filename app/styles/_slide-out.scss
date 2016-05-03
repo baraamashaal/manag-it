@@ -117,3 +117,18 @@ $slide-out-list-items-height : 48px;
   }
 }
 
+
+//menu overlay
+
+
+.overlay{
+  width: 100%;
+  height: 100%;
+  background-color: rgba(#000,.7);
+  z-index: 998;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  display: none;
+}

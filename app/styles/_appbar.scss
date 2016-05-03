@@ -1,7 +1,7 @@
 .appbar{
 
   @extend .shadow-2;
-  background-color: $app-bgc;
+  background-color: $appbar-bgc;
   width: 100%;
   
   &,a{

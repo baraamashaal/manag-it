@@ -5,6 +5,7 @@ do ($ = jQuery) ->
       menuWidth       : 240
       outDuration     : 200
       inDuration      : 300
+      stikOn          : 1280
       edge            : 'left'
       closeOnSelect   : false
       easing          : 'easeOutQuad'
@@ -14,8 +15,15 @@ do ($ = jQuery) ->
         opening : 'slide-out-opening'
 
     _create : ->
+      that = this
+
       @menu = $ "##{@element.data 'activates'}"
       @overlay = $ '<div class=overlay></div>'
+        .attr 'data-related-to', "##{@menu.attr 'id'}"
+        .bind 'show', ->
+          console.log 'hi showed', this 
+        
+      @overlay.trigger 'show'
 
       @_hlps.$body.append @overlay
       
@@ -27,7 +35,7 @@ do ($ = jQuery) ->
         styling = {
           width: that.options.menuWidth
         }
-        styling[that.options.edge] = 0
+        styling[that.options.edge] = -1 * that.options.menuWidth
         
         that.menu.css styling
         
@@ -52,13 +60,29 @@ do ($ = jQuery) ->
           
           
 
-      @_on this.element,
+      @_on @element,
         'click' : ->
           @toggle()
-         
+      @_on @overlay,
+        'click' : ->
+          @close()
+      
+
+
+      ### on resize the window ###
+      @_on window,
+        'resize' : (e)->
+          if @isOpen()
+            if window.innerWidth >= @.options.stikOn
+              @_overlay 'hide'
+            else
+              @_overlay 'show'
+        
+        
         
     _hlps : 
       opened : false
+      overlayIsVisable : false
       isAnimating : false
       $body  : $ 'body'
 
@@ -68,6 +92,41 @@ do ($ = jQuery) ->
 
     isOpen : ->
       return @_hlps.opened
+
+    _menu : (order)->      
+      tglMenu = (animation, removedClass, addedClass,duration,status) =>
+        @menu.removeClass(removedClass).addClass(@options.classes.opening).velocity animation,
+          'duration' : duration
+          'queue' : false
+          'easing': @options.easing
+          'complete' : =>
+            @menu.removeClass(@options.classes.opening).addClass(addedClass)
+            @_hlps.opened = status
+      
+      
+      if order is 'show'
+        tglMenu {"#{@options.edge}" : 0}, @options.classes.closed, @options.classes.opened, @options.inDuration, true
+      
+      else if order is 'hide'
+        tglMenu {"#{@options.edge}" : -1 * @options.menuWidth}, @options.classes.opened, @options.classes.closed, @options.outDuration, false
+
+      this
+    _overlay : (order)->
+      tglOverlay = (animation, duration,status) =>
+        @overlay.velocity animation,
+          'duration' : duration
+          'queue' : false
+          'easing': @options.easing
+          'begin' : =>
+            @_hlps.overlayIsVisable = status
+          
+      if @_hlps.overlayIsVisable is false and order is 'show'
+        tglOverlay 'fadeIn', @options.inDuration, true
+      else if @_hlps.overlayIsVisable is true and order is 'hide'
+        tglOverlay 'fadeOut', @options.outDuration, false
+    
+    
+    
     
     open : ->
       ### do nothing if it's already opened ###
@@ -81,26 +140,30 @@ do ($ = jQuery) ->
       ### disable Scrolling ###
       if @options.disableScrolling is true
         @_hlps.$body.css 'overflow', 'hidden'
-
+      ### add classes to the body ###
+      @_hlps.$body.addClass("slide-out-opend ##{@menu.attr 'id'}")
       ### animating the opening of the menu ###
-      @menu.removeClass(@options.classes.closed).addClass(@options.classes.opening).velocity {"#{@options.edge}": 0},
-        duration : @options.inDuration
-        queue : false
-        easing: @options.easing
-        complete : ->
-          that = that
-          that.menu.removeClass(that.options.classes.opening).addClass(that.options.classes.open)
-          that._hlps.opened = true
-          # animationState.menuState = true
-          # isAnimationComplete animationState
-        
-      @overlay.velocity {opacity: 1},
-        duration : @options.inDuration
-        queue : false
-        easing: @options.easing
-        complete : ->
-          # animationState.overlayState = true
-          # isAnimationComplete animationState
+      # @menu.removeClass(@options.classes.closed).addClass(@options.classes.opening).velocity {"#{@options.edge}": 0},
+      #   duration : @options.inDuration
+      #   queue : false
+      #   easing: @options.easing
+      #   complete : ->
+      #     that = that
+      #     that.menu.removeClass(that.options.classes.opening).addClass(that.options.classes.open)
+      #     that._hlps.opened = true
+      #     # animationState.menuState = true
+      #     # isAnimationComplete animationState
+      @_menu 'show'  
+      
+      @_overlay 'show'  
+      # @overlay.velocity {opacity: 1},
+      #   duration : @options.inDuration
+      #   queue : false
+      #   display : 'block'
+      #   easing: @options.easing
+      #   complete : ->
+      #     # animationState.overlayState = true
+      #     # isAnimationComplete animationState
 
       ### fire custom function after opening the menu  ###
       if typeof @options.afterOpen is 'function'
@@ -121,21 +184,24 @@ do ($ = jQuery) ->
       ### eenable scrolling ###
       @_hlps.$body.css 'overflow', ''
 
-      ### hide the overlay ###
-      @overlay.velocity {opacity:0},
-        duration : @options.outDuration
-        queue : false
-        easing: @options.easing
-        complete : ->
-          $(this).hide()
-      ### hide the menu ###
-      @menu.velocity {"#{@options.edge}": -1 * @options.menuWidth},
-        duration : @options.outDuration
-        queue : false
-        easing: @options.easing
-        complete : ->
-          that._hlps.opened = false
-        
+      # ### hide the overlay ###
+      # @overlay.velocity {opacity:0},
+      #   duration : @options.outDuration
+      #   queue : false
+      #   easing: @options.easing
+      #   display : 'none'
+      #   complete : ->
+      #     $(this).hide()
+
+      @_overlay 'hide'
+      # ### hide the menu ###
+      # @menu.velocity {"#{@options.edge}": -1 * @options.menuWidth},
+      #   duration : @options.outDuration
+      #   queue : false
+      #   easing: @options.easing
+      #   complete : ->
+      #     that._hlps.opened = false
+      @_menu 'hide'
       ### fire custom function After closeing the menu  ###
       if typeof @options.afterClose is 'function'
         @options.afterClose.call(@menu)
@@ -158,4 +224,4 @@ do ($ = jQuery) ->
     
   # testing
   $ ->
-    $('#sidenav-init-btn').slideOut()
+    window.testing = $('#sidenav-init-btn').slideOut()
