@@ -2,7 +2,6 @@
 this plugin is fully under maintenance not even in a beta version
 
 ##Features
-- Dependency-free
 - Easy to use
 - fully customizable
 
