@@ -28,7 +28,7 @@ $dir : 'left';
 // app color
 $color :        palette(Cyan);
 $sec-color :    palette(Pink,900);
-$accent-color:  palette(Pink,600);
+$accent:  palette(Pink,600);
 $appbar-bgc:    if(variable-exists('color'), $color,if($theme == 'dark',  #303030,palette(Grey,50)));
 
 

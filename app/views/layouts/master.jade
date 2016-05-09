@@ -18,14 +18,14 @@ html(lang='')
   body
     header
       block header
-        include ../partials/appbar
-        include ../partials/sidenav
+        //- include ../partials/appbar
+        //- include ../partials/sidenav
     main
       #app-content.container-fluid
         block content
     footer#app-footer
       block footer
-        include ../partials/footer
+        //- include ../partials/footer
 
 
 
@@ -45,7 +45,6 @@ html(lang='')
     script(src='/bower_components/Materialize/js/leanModal.js')
     script(src='/bower_components/Materialize/js/materialbox.js')
     script(src='/bower_components/Materialize/js/parallax.js')
-    script(src='/bower_components/Materialize/js/tabs.js')
     script(src='/bower_components/Materialize/js/tooltip.js')
     script(src='/bower_components/Materialize/js/waves.js')
     script(src='/bower_components/Materialize/js/toasts.js')
@@ -63,6 +62,7 @@ html(lang='')
     script(src='/bower_components/Materialize/js/date_picker/picker.date.js')
     script(src='/bower_components/Materialize/js/character_counter.js')
     script(src='/bower_components/Materialize/js/carousel.js')
+    script(src='/bower_components/css-element-queries/src/ResizeSensor.js')
     script(src='/bower_components/material-avatar/material-avatar.js')
     script(src='/bower_components/material-avatar/material-avatar.min.js')
     // endbower
@@ -75,5 +75,6 @@ html(lang='')
     script(src='scripts/app.js')
     script(src='scripts/appbar.js')
     script(src='scripts/slideOut/slide_out.js')
+    script(src='scripts/tabs/tabs.js')
     //- script(src='scripts/wrap-end.js')
     // endbuild

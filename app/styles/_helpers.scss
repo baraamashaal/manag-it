@@ -1,0 +1,18 @@
+.disabled{
+  cursor: default;
+  color: $disabled;
+}
+.notransition{
+  transition: none !important;
+}
+
+.scrollbar-measure {
+  width: 100px;
+  height: 100px;
+  overflow: scroll;
+  position: absolute;
+  top: -9999px;
+  z-index: -999;
+  background-color: #FFF;
+  visibility: hidden;
+}

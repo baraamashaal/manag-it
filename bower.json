@@ -10,6 +10,7 @@
     "Materialize": "materialize#^0.97.6",
     "bourbon": "^4.2.7",
     "google-material-color": "^1.2.6",
+    "css-element-queries": "https://github.com/marcj/css-element-queries.git#^0.3.2",
     "material-avatar": "^0.3.4"
   },
   "overrides": {
@@ -38,6 +39,11 @@
         "ui/widget.js"
       ]
     },
+    "css-element-queries": {
+      "main": [
+        "src/ResizeSensor.js"
+      ]
+    },
     "Materialize": {
       "main": [
         "sass/materialize.scss",
@@ -53,7 +59,6 @@
         "js/leanModal.js",
         "js/materialbox.js",
         "js/parallax.js",
-        "js/tabs.js",
         "js/tooltip.js",
         "js/waves.js",
         "js/toasts.js",

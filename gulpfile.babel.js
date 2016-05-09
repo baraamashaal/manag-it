@@ -134,6 +134,7 @@ gulp.task('serve', ['views', 'styles', 'scripts', 'coffeeScript', 'fonts'], () =
 
   gulp.watch('app/views/**/*.jade', ['views']);
   gulp.watch('app/styles/**/*.scss', ['styles']);
+  gulp.watch('bower_components/Materialize/sass/**/*.scss', ['styles']);
   gulp.watch('app/scripts/**/*.js', ['scripts']);
   gulp.watch('app/scripts/**/*.coffee', ['coffeeScript']);
   gulp.watch('app/fonts/**/*', ['fonts']);

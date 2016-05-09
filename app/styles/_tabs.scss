@@ -1,0 +1,179 @@
+$tabs-height:48px;
+
+/* tabs header */
+.tabs-wrapper{
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.tabs{
+  width: 100%;
+  display: block;
+  position: relative;
+  height: $tabs-height;
+  background-color: $app-bgc;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  overflow-y: hidden;
+  
+  .tab{
+    display: inline-block;
+    color: $sec-txt;
+    padding: 0 12px;
+    line-height: $tabs-height;
+    text-align: center;
+    float: if($dir == 'right',right,left);
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: $font-meduim;
+    min-width: 77px;
+    // text-overflow: ellipsis;
+    
+    &.active{
+      color: if(variable-exists('accent'),  $accent, #fff);
+      // box-shadow: inset 0px -2px 0px 0px if(variable-exists('accent'),  $accent, #fff);
+    }
+
+    &.rmbsh{
+      .active{
+        box-shadow : none !important;
+      }
+    }
+
+    a{
+      display: block;
+      padding: 0;
+      line-height:inherit;
+      text-align: inherit;
+      color: inherit;
+      font-weight: inherit;
+      text-transform:inherit;
+    }
+
+  }
+
+  .tabs-indicator{
+    position: absolute;
+    bottom: 0;
+    height:2px;
+    background-color: if(variable-exists('accent'),  $accent, #fff);
+    &.mv-right{
+      transition: left .35s cubic-bezier(.35,0,.25,1),right .225s cubic-bezier(.35,0,.25,1);
+    }
+    &.mv-left{
+      transition: left .225s cubic-bezier(.35,0,.25,1),right .35s cubic-bezier(.35,0,.25,1);
+    }
+  }
+
+
+  @include media-breakpoint-up(md) {
+    .tab{
+      font-size: 13px;
+      padding-left:24px;
+      padding-right:24px;
+    }
+  }
+
+}
+
+/* tabs content wrapper */
+.tabs-content{
+  position: relative;
+  display: block;
+  transition: height .5s cubic-bezier(.35,0,.25,1);
+  overflow: hidden;
+  // overflow: hidden;
+  .tab-panel{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: translateX(-100%);
+    visibility: hidden;
+    
+    &.last-active{
+      visibility: hidden;
+      opacity: 0;
+      animation-name: tabs-panel-hide;
+      animation-duration: .5s;
+    }
+
+    &.active{
+      position: relative;
+      transform: translate3d(0,0,0);
+      visibility: visible;
+      opacity: 1;
+      animation-name: tabs-panel-show;
+      animation-duration: .5s;
+    }
+    
+
+    &.active,&.last-active{
+      transition: transform .5s cubic-bezier(.35,0,.25,1);
+    }
+  }
+
+  .on-left{
+    transform: translateX(-100%);
+  }
+  .on-right{
+    transform: translateX(100%);
+  }
+}
+
+
+
+
+
+/* desctop */
+
+
+
+
+
+
+
+
+
+@keyframes tabs-panel-hide {
+    0%   {
+      visibility: visible;
+      opacity: 1;
+    }
+    
+    75%  {
+      opacity: .6;
+    }
+    100% {
+      visibility: hidden;
+      opacity: 0;
+    }
+}
+@keyframes tabs-panel-show {
+    0%   {
+      visibility: hidden;
+      opacity: 0;
+    }
+    75%  {
+      opacity: .6;
+    }
+    100% {
+      visibility: visible;
+      opacity: 1;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
