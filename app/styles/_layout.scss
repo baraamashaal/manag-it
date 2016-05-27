@@ -6,3 +6,7 @@ body{
   background-color: $app-bgc;
   color: $txt;
 }
+::selection {
+  background-color: $accent;
+  color: #FFF;
+}

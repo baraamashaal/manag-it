@@ -5,6 +5,45 @@ $tabs-height:48px;
   overflow: hidden;
   position: relative;
   width: 100%;
+  height: $tabs-height;
+  
+  .tabs-nav{
+    display: none;
+  }
+
+  &.scrollable{
+    padding: 0;
+
+    .hide-overflow{
+    }
+    .tabs-scrollbar-contianer{
+      height: $tabs-height + 15;
+      overflow-y: hidden;
+      overflow-x: scroll;
+    }
+    .tabs-nav{
+      display: inline-block;
+      height: $tabs-height;
+      line-height: $tabs-height;
+      position: absolute;
+      top: 0;
+      padding: 0 5px;
+      z-index: 5;
+      i{
+        line-height: $tabs-height;
+        height: $tabs-height;
+      }
+    }
+
+    .next{
+      right: 0;
+    }
+
+    .prev{
+      left: 0;
+    }
+  }
+
 }
 
 .tabs{
@@ -17,6 +56,7 @@ $tabs-height:48px;
   padding: 0;
   white-space: nowrap;
   overflow-y: hidden;
+  overflow-x: auto;
   
   .tab{
     display: inline-block;
@@ -67,15 +107,6 @@ $tabs-height:48px;
     }
   }
 
-
-  @include media-breakpoint-up(md) {
-    .tab{
-      font-size: 13px;
-      padding-left:24px;
-      padding-right:24px;
-    }
-  }
-
 }
 
 /* tabs content wrapper */
@@ -86,6 +117,7 @@ $tabs-height:48px;
   overflow: hidden;
   // overflow: hidden;
   .tab-panel{
+    display: inline-block;
     position: absolute;
     top: 0;
     left: 0;
@@ -124,10 +156,30 @@ $tabs-height:48px;
 }
 
 
+// tablets and up
+@include media-breakpoint-up(md) {
+  .tabs-wrapper{
+
+    &.scrollable{
+      padding-right: 35px;
+      padding-left: 35px;
+    }
+    
+  }
+
+  .tabs{
+
+    .tab{
+      font-size: 13px;
+      padding-left:24px;
+      padding-right:24px;
+    }
+
+  }
+}
 
 
 
-/* desctop */
 
 
 
@@ -137,6 +189,7 @@ $tabs-height:48px;
 
 
 
+// animations
 @keyframes tabs-panel-hide {
     0%   {
       visibility: visible;

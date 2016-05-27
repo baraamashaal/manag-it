@@ -16,19 +16,7 @@ class App
   getType : (obj) ->
     if @isNode(obj) then return 'nodeElement' else return toType obj
 
-  updateConfig : (config,el)->
-    for prop of config
-      if config.hasOwnProperty prop
-        
-        toHyphen = prop.replace /[A-Z]/g, (AZ) -> "-#{AZ.toLowerCase()}"
-
-        newVal = el.attr "data-#{hyphenOpt}"
-
-        if newVal and newVal.trim()
-          config.prop = newVal
-  
-  
-  typeCheckConfig : (componentName, config, configTypes) ->
+  typeCheckConfig = (componentName, config, configTypes) ->
     for prop in configTypes
       if configTypes.hasOwnProperty prop
         expectedType = configTypes[prop]
@@ -37,5 +25,5 @@ class App
 
         if not new RegExp(expectedType).test(valType)
           throw new Error "#{componentName.toUpperCase()}: Option #{prop} provided type #{valType} but expected type #{expectedType}"
-  
+        
 ManagIt = new App()

@@ -376,9 +376,236 @@ $(document).ready ->
 
 
 
+# do (jQuery = $) ->
+#   $.widget 'managIt.tabs',
+#     options :
+#       justify : false
+#       dir   : 'ltr'
+#       classes :
+#         activeTab : 'active'
+#         lastActiveTab : 'last-active'
+#         activePanel : 'active'
+#         lastActivePanel : 'last-active'
+#         panelPositioning : ['on-left','on-right']
+#         indicatorPositioning : ['mv-left','mv-right']
+
+#     _ : {}
+    
+#     _create : ->
+#       @tabs = @element.children '.tab'
+#       @panelsWrapper = @_setPanelsWrapper()
+#       @panels = @panelsWrapper?.children '.tab-panel'
+
+#       # if not (@panelsWrapper and @tabs and @panels and @panelsWrapper.length and (@tabs.length <= @panels.length))
+#       #   console.error 'unexpected error : please check this tabs html structure'
+#       #   return
+
+#       @_updateOptions()
+
+#       @element.wrap '<div class="tabs-wrapper"></div>' 
+#       @tapsWrapper = @element.parent() 
+      
+#       @_updateTaps()
+
+#       @activeTab = @_setActiveTab()
+#       @lastActiveTab = @activeTab.addClass @options.classes.lastActiveTab
+      
+#       @lastActiveTabIndex = null
+#       @activeTabIndex = @tabs.index @activeTab
+      
+#       @indicator = @_setIndicator()
+
+#       @activePanel = @_setActivePanel()
+#       @lastActivePanel = @activePanel.addClass @options.classes.lastActivePanel
+
+#       @_onResize()
+
+#       @_onClick()
+
+#       @_updatePanel()
+
+#       ###*
+#        * testing
+#       ###
+#       @_scrollable()
+#     _updateOptions : ->
+#       for opt of @options
+#         if @options.hasOwnProperty opt
+          
+#           hyphenOpt = opt.replace /[A-Z]/g, (AZ) ->
+#             return "-#{AZ.toLowerCase()}"
+          
+#           newVal = @element.attr "data-#{hyphenOpt}"
+
+#           if newVal and newVal.trim()
+#             @_setOption(opt,newVal)
+
+#     _setOption : (key,val)->
+#       @_super key, val
+
+#     _setTapsWrapper : ->
+      
+    
+#     _updateTaps : ->
+#       tabsWidth = 0
+#       @tabs.each ->
+#         tabsWidth += this.getBoundingClientRect().width
+#       @element.width tabsWidth
+
+#     _setActiveTab : (tab) ->
+#       if tab and (c = @tabs.filter(tab)).length
+#       else if (c = @tabs.filter "[aria-controls='"+location.hash.replace('#','')+"']").length
+#       else if (c = @tabs.filter '.active').length
+#       else
+#         c = @tabs
+#       @tabs.removeClass @options.classes.activeTab
+#       c.first().addClass @options.classes.activeTab
+#     _updateActiveTab : (tab)->
+#       @lastActiveTab?.removeClass @options.classes.lastActivePanel
+#       @lastActiveTab = @activeTab.addClass @options.classes.lastActivePanel
+#       @lastActiveTabIndex = @activeTabIndex
+#       @activeTab?.removeClass @options.classes.activeTab
+#       @activeTab = tab.addClass @options.classes.activeTab
+#       @activeTabIndex = @tabs.index @activeTab
+
+#     _setIndicator : ->
+#       indicator = $ "<div class='tabs-indicator'></div>"
+#       @_updateIndicator(indicator)
+#       @element.append indicator
+#       indicator
+
+#     _updateIndicator : (indicator = @indicator) ->
+#       that = this
+
+#       @_['actvPos'] = do (that = this) ->
+#         l = that.activeTab.position().left
+#         r = that.element[0].getBoundingClientRect().width - (l + that.activeTab[0].getBoundingClientRect().width)
+#         return {left:l,right : r}
+
+#       cla = @options.classes.indicatorPositioning
+      
+#       if @options.dir is 'rtl'
+#         cla.reverse()
+
+#       indicator.removeClass("#{cla[0]} #{cla[1]}").addClass(if @lastActiveTabIndex < @activeTabIndex then cla[1] else cla[0]).css @_.actvPos
+      
+#     _setPanelsWrapper : ->
+#       wrapper = null
+#       @tabs.each ->
+#         wrapper = $("##{this.getAttribute 'aria-controls'}").parent('.tabs-content')
+
+#         if wrapper.length
+#           return false
+#         else
+#           wrapper = null
+      
+#       return wrapper
+#     _setActivePanel : (panel) ->
+#       panel = panel or @panels.filter "##{@activeTab.attr 'aria-controls'}"
+#         .addClass 'active'
+#         .removeClass @options.classes.panelPositioning[0],@options.classes.panelPositioning[1]
+#       panel
+#     _updateActivePanel : (panel) ->
+#       @lastActivePanel?.removeClass @options.classes.lastActivePanel
+#       @lastActivePanel = @activePanel.addClass @options.classes.lastActivePanel
+
+#       @activePanel?.removeClass @options.classes.activeTab
+#       @activePanel = @_setActivePanel(panel).removeClass "#{@options.classes.panelPositioning[0]} #{@options.classes.panelPositioning[1]}"
+
+#     _updatePanel : ->
+#       that = this    
+#       classes = if @options.dir is 'rtl' then @options.classes.panelPositioning.reverse() else  @options.classes.panelPositioning
+
+#       @tabs.not(@activeTab).each ->
+#         tab = $ this
+#         panel = that.panels.filter "##{tab.attr 'aria-controls'}"
+#         tabPos = that.tabs.index tab
+#         panel.removeClass("#{classes[0]} #{classes[1]}").addClass(if tabPos > that.activeTabIndex then classes[1] else classes[0])
+
+#       @panelsWrapper.css 'height', @activePanel[0].getBoundingClientRect().height
+
+#     setActive : (tab) ->
+#       @_updateActiveTab(tab)
+#       @_updateActivePanel()
+#       @_updatePanel()
+#       @_updateIndicator()
+
+#     _onClick : ->
+#       @_on @element,
+#         'click .tab' : (e) ->
+          
+#           $target = $ e.currentTarget
+          
+#           if $target.hasClass('active') or $target.hasClass 'disabled'
+#             return
+
+#           @setActive($target)
+        
+          
+#     _onResize : ->
+#       @_on window,
+#         'resize' : ->
+#           @_updateIndicator()
+    
+#     # _scrollable: ->
+#     #   wrapper = @element.parent()
+#     #   if ((@element.width() + 15) > wrapper.width()) and !wrapper.hasClass 'scrollable'
+#     #     wrapper.addClass 'scrollable' 
+#     #     @element.after('<div class="tabs-nav next"><i class="material-icons">&#xE409;</i></div>')
+#     #     @element.before('<div class="tabs-nav prev"><i class="material-icons">&#xE314;</i></div>')
+#     #     @element.wrap '<div class="hide-overflow"></div>'
+
+#     _scrollable : ->
+#       ### on desktops ###
+#       $window = $ window
+#       next = $ '<div class="tabs-nav next"><i class="material-icons">&#xE409;</i></div>'
+#       prev = $ '<div class="tabs-nav prev"><i class="material-icons">&#xE314;</i></div>'
+
+#       if (@element.width() > @tapsWrapper.width()) and !@tapsWrapper.hasClass 'scrollable'
+#         @tapsWrapper.addClass 'scrollable'
+        
+#         @element.wrap '<div class="tabs-scrollbar-contianer"></div>'
+#         @_['scrollWrapper'] = do @element.parent
+        
+#         @tapsWrapper.prepend prev
+#         @tapsWrapper.append next
+        
+#       @_on next,
+#         'click' : (e) ->
+#           @_['scrollWrapper'].scrollLeft @_['scrollWrapper'].width()    
+        
+    
+#     next : ->
+#       if (nextTap = @activeTab.next()).hasClass 'tab'
+#         @setActive nextTap
+
+
+#     prev : ->
+#       if (prevTap = @activeTab.prev()).hasClass 'tab'
+#         @setActive prevTap
+    
+#     first : (selector)->
+#       if typeof selector is 'string' or selector instanceof jQuery
+#         tab = @tabs.filter(selector).first()
+#       else
+#         tab =  @tabs.first()
+
+#       @setActive tab
+
+#     last : (selector)->
+#       if typeof selector is 'string' or selector instanceof jQuery
+#         tab = @tabs.filter(selector).last()
+#       else
+#         tab =  @tabs.last()
+      
+#       @setActive tab
+    
+    
+    
 do (jQuery = $) ->
   $.widget 'managIt.tabs',
-    options :
+  
+  options :
       justify : false
       dir   : 'ltr'
       classes :
@@ -388,158 +615,17 @@ do (jQuery = $) ->
         lastActivePanel : 'last-active'
         panelPositioning : ['on-left','on-right']
         indicatorPositioning : ['mv-left','mv-right']
+  _create : ->
+    @tabs = @element.children '.tab'
+    @panels = do =>
+      target = $ "##{@tabs.attr 'aria-controls'}"
 
-    _create : ->
-      @tabs = @element.children '.tab'
-      @panelsWrapper = @_setPanelsWrapper()
-      @panels = @panelsWrapper?.children '.tab-panel'
+      if target.length
+        return target
 
-      # if not (@panelsWrapper and @tabs and @panels and @panelsWrapper.length and (@tabs.length <= @panels.length))
-      #   console.error 'unexpected error : please check this tabs html structure'
-      #   return
-
-      @_updateOptions()
-
-      @element.wrap '<div class="tabs-wrapper"></div>' 
-      @_updateTapsWrapper()
-
-      @activeTab = @_setActiveTab()
-      @lastActiveTab = @activeTab.addClass @options.classes.lastActiveTab
-      
-      @lastActiveTabIndex = null
-      @activeTabIndex = @tabs.index @activeTab
-      
-      @indicator = @_setIndicator()
-
-      @activePanel = @_setActivePanel()
-      @lastActivePanel = @activePanel.addClass @options.classes.lastActivePanel
-
-      @_onResize()
-
-      @_onClick()
-
-    _updateOptions : ->
-      for opt of @options
-        if @options.hasOwnProperty opt
-          
-          hyphenOpt = opt.replace /[A-Z]/g, (AZ) ->
-            return "-#{AZ.toLowerCase()}"
-          
-          newVal = @element.attr "data-#{hyphenOpt}"
-
-          if newVal and newVal.trim()
-            @_setOption(opt,newVal)
-
-    _setOption : (key,val)->
-      @_super key, val
-
-    _updateTapsWrapper : ->
-      tabsWidth = 0
-      @tabs.each ->
-        tabsWidth += this.getBoundingClientRect().width
-      @element.width tabsWidth
-      
-    _setActiveTab : (tab) ->
-      if tab and (c = @tabs.filter(tab)).length
-      else if (c = @tabs.filter "[aria-controls='"+location.hash.replace('#','')+"']").length
-      else if (c = @tabs.filter '.active').length
       else
-        c = @tabs
-      @tabs.removeClass @options.classes.activeTab
-      c.first().addClass @options.classes.activeTab
-    _updateActiveTab : (tab)->
-      @lastActiveTab?.removeClass @options.classes.lastActivePanel
-      @lastActiveTab = @activeTab.addClass @options.classes.lastActivePanel
-      @lastActiveTabIndex = @activeTabIndex
-      @activeTab?.removeClass @options.classes.activeTab
-      @activeTab = tab.addClass @options.classes.activeTab
-      @activeTabIndex = @tabs.index @activeTab
-
-    _setIndicator : ->
-      indicator = $ "<div class='tabs-indicator'></div>"
-      @_updateIndicator(indicator)
-      @element.append indicator
-      indicator
-
-    _updateIndicator : (indicator = @indicator) ->
-      actvPos = @activeTab.position().left
-      cla = @options.classes.indicatorPositioning
-      
-      if @options.dir is 'rtl'
-        cla.reverse()
-
-      indicator.removeClass("#{cla[0]} #{cla[1]}").addClass(if @lastActiveTabIndex < @activeTabIndex then cla[1] else cla[0]).css
-        left: actvPos
-        right: @element.width() - (actvPos + @activeTab.outerWidth())
         
-    _setPanelsWrapper : ->
-      wrapper = null
-      @tabs.each ->
-        wrapper = $("##{this.getAttribute 'aria-controls'}").parent('.tabs-content')
 
-        if wrapper.length
-          return false
-        else
-          wrapper = null
+    
       
-      return wrapper
-    _setActivePanel : (panel) ->
-      panel = panel or @panels.filter "##{@activeTab.attr 'aria-controls'}"
-        .addClass 'active'
-        .removeClass @options.classes.panelPositioning[0],@options.classes.panelPositioning[1]
-      panel
-    _updateActivePanel : (panel) ->
-      @lastActivePanel?.removeClass @options.classes.lastActivePanel
-      @lastActivePanel = @activePanel.addClass @options.classes.lastActivePanel
-
-      @activePanel?.removeClass @options.classes.activeTab
-      @activePanel = @_setActivePanel(panel)
-
-      @panelsWrapper.css
-        height: @activePanel.height()
-    _updatePanel : ->
-      that = this    
-      classes = if @options.dir is 'rtl' then @options.classes.panelPositioning.reverse() else  @options.classes.panelPositioning
-
-      @tabs.not(@activeTab).each ->
-        tab = $ this
-        panel = that.panels.filter "##{tab.attr 'aria-controls'}"
-        tabPos = that.tabs.index tab
-        panel.removeClass("#{classes[0]} #{classes[1]}").addClass(if tabPos > that.activeTabIndex then classes[1] else classes[0])
-
-    setActive : (tab) ->
-      @_updateActiveTab(tab)
-      @_updatePanel()
-      @_updateActivePanel()
-      @_updateIndicator()
-
-    _onClick : ->
-      @_on @element,
-        'click .tab' : (e) ->
-          
-          $target = $ e.currentTarget
-          
-          if $target.hasClass('active') or $target.hasClass 'disabled'
-            return
-
-          @setActive($target)
-        
-          
-    _onResize : ->
-      @_on window,
-        'resize' : ->
-          console.log 'aaaaaa'
-          @_updateIndicator()
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+  
